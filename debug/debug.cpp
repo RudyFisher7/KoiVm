@@ -32,7 +32,7 @@
 namespace KoiVm = Koi::VirtualMachine;
 
 int main() {
-    std::vector<bool> sum = KoiVm::FullAdderCircuit::add({0,1,0,1}, {0,0,1,0}, false);
+    std::vector<bool> sum = KoiVm::FullAdderCircuit::add({1,0,1}, {0,0,0,0,0,1,0}, true);
 
     std::cout << "sum: ";
     for (auto s: sum) {

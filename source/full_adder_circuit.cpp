@@ -40,14 +40,22 @@ std::vector<bool> FullAdderCircuit::add(std::vector<bool> top_word, std::vector<
     std::vector<FullAdder::Output> outputs(result.size(), { false, false });
 
     bool current_carry = carry_in;
-    for (unsigned int i = result.size(); i > 0u; --i) {
-        outputs.at(i - 1u) = FullAdder::add(
-                top_word.at(i - 1u),
-                Gate::get_exclusive_or(carry_in, bottom_word.at(i - 1u)),
+    for (unsigned int i = 1u; i < result.size(); ++i) {
+        unsigned int result_i = result.size() - i;
+        unsigned int top_i = top_word.size() - i;
+        unsigned int bottom_i = bottom_word.size() - i;
+        unsigned int outputs_i = outputs.size() - i;
+
+        bool top_bit = top_i < top_word.size() && top_word.at(top_i);
+        bool bottom_bit = bottom_i < bottom_word.size() && bottom_word.at(bottom_i);
+
+        outputs.at(result_i) = FullAdder::add(
+                top_bit,
+                Gate::get_exclusive_or(carry_in, bottom_bit),
                 current_carry
         );
 
-        current_carry = outputs.at(i - 1u).carry;
+        current_carry = outputs.at(outputs_i).carry;
     }
 
     for (unsigned int i = 0u; i < result.size(); ++i) {
